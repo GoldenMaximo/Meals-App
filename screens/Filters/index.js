@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import * as S from './styles';
-import Screen from '../../components';
+import { Screen } from '../../components';
 
 const Filters = () => {
     return (

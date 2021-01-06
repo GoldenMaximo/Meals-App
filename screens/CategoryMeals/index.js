@@ -1,14 +1,24 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import * as S from './styles';
-import Screen from '../../components';
+import { Text } from 'react-native';
+import PropTypes from 'prop-types';
 
-const CategoryMeal = () => {
+import * as S from './styles';
+import { Screen } from '../../components';
+
+const CategoryMeals = ({ navigation }) => {
     return (
         <Screen>
             <Text>The CategoryMeal Screen!</Text>
+            <S.Button title="go to details" onPress={() => navigation.navigate('MealDetail')} />
         </Screen>
     );
 };
 
-export default CategoryMeal;
+CategoryMeals.propTypes = {
+    navigation: PropTypes.shape({
+        navigate: PropTypes.func,
+        pop: PropTypes.func,
+    }),
+};
+
+export default CategoryMeals;
