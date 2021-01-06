@@ -1,22 +1,22 @@
 import React from 'react';
-import { Text } from 'react-native';
 import PropTypes from 'prop-types';
+import { FlatList, Text } from 'react-native';
+
+import { CATEGORIES } from '../../data/dummy-data';
 
 import * as S from './styles';
-import { Screen } from '../../components';
+// import { Screen } from '../../components';
 
-const Categories = ({ navigation }) => {
+const renderGridItem = (itemData) => {
     return (
-        <Screen>
-            <Text>The categories Screen!</Text>
-            <S.Button
-                title="go to Meals!"
-                onPress={() => {
-                    navigation.navigate('CategoryMeals');
-                }}
-            />
-        </Screen>
+        <S.GridItem>
+            <Text>{itemData.item.title}</Text>
+        </S.GridItem>
     );
+};
+
+const Categories = () => {
+    return <FlatList data={CATEGORIES} renderItem={renderGridItem} numColumns={2} />;
 };
 
 Categories.propTypes = {
