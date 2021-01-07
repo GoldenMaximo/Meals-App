@@ -1,26 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { CATEGORIES } from '../../data/dummy-data';
-
-import * as S from './styles';
-// import { Screen } from '../../components';
+import { CategoryGridTile } from '../../components';
 
 const Categories = ({ navigation }) => {
-    const renderGridItem = itemData => {
-        return (
-            <S.GridItem
-                onPress={() =>
-                    navigation.navigate('CategoryMeals', { categoryId: itemData.item.id })
-                }
-            >
-                <View>
-                    <Text>{itemData.item.title}</Text>
-                </View>
-            </S.GridItem>
-        );
-    };
+    const renderGridItem = itemData => (
+        <CategoryGridTile
+            title={itemData.item.title}
+            color={itemData.item.color}
+            onSelect={() => navigation.navigate('CategoryMeals', { categoryId: itemData.item.id })}
+        />
+    );
 
     return <FlatList data={CATEGORIES} renderItem={renderGridItem} numColumns={2} />;
 };
@@ -32,7 +24,7 @@ Categories.navigationOptions = {
 Categories.propTypes = {
     navigation: PropTypes.shape({
         navigate: PropTypes.func,
-    }),
+    }).isRequired,
 };
 
 export default Categories;
