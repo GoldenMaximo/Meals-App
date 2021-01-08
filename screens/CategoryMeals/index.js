@@ -11,7 +11,7 @@ const CategoryMeals = ({ navigation }) => {
         return (
             <MealItem
                 title={meal.title}
-                onSelectMeal={() => {}}
+                onSelectMeal={() => navigation.navigate('MealDetail', { meal })}
                 duration={meal.duration}
                 complexity={meal.complexity}
                 affordability={meal.affordability}
@@ -46,9 +46,9 @@ CategoryMeals.navigationOptions = ({ navigation }) => {
 
 CategoryMeals.propTypes = {
     navigation: PropTypes.shape({
-        navigate: PropTypes.func,
-        pop: PropTypes.func,
-        getParam: PropTypes.func,
+        navigate: PropTypes.func.isRequired,
+        pop: PropTypes.func.isRequired,
+        getParam: PropTypes.func.isRequired,
     }),
 };
 
