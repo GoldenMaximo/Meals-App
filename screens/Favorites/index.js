@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { MealsList } from '../../components';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
+import { MealsList, CustomHeaderButton } from '../../components';
 
 import { MEALS } from '../../data/dummy-data';
 
@@ -11,9 +13,14 @@ const Favorites = ({ navigation }) => {
     return <MealsList mealData={favMeals} navigation={navigation} />;
 };
 
-Favorites.navigationOptions = () => {
+Favorites.navigationOptions = ({ navigation }) => {
     return {
         headerTitle: 'Your favorites',
+        headerLeft: (
+            <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+                <Item title="Menu" iconName="ios-menu" onPress={() => navigation.toggleDrawer()} />
+            </HeaderButtons>
+        ),
     };
 };
 
