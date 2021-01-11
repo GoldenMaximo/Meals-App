@@ -1,19 +1,39 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { ScrollView } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import PropTypes from 'prop-types';
 
+import { CustomHeaderButton, DefaultText } from '../../components';
 import * as S from './styles';
-import { Screen, CustomHeaderButton } from '../../components';
+
+const ListItem = ({ children }) => {
+    return (
+        <S.ListItem>
+            <DefaultText>{children}</DefaultText>
+        </S.ListItem>
+    );
+};
 
 const MealDetail = ({ navigation }) => {
-    const meal = navigation.getParam('meal');
+    const selectedMeal = navigation.getParam('meal');
 
     return (
-        <Screen>
-            <Text>{meal.title}</Text>
-            <S.Button title="go back" onPress={() => navigation.popToTop()} />
-        </Screen>
+        <ScrollView>
+            <S.Image source={{ uri: selectedMeal.imageUrl }} />
+            <S.Details>
+                <DefaultText>{selectedMeal.duration}</DefaultText>
+                <DefaultText>{selectedMeal.complexity.toUpperCase()}</DefaultText>
+                <DefaultText>{selectedMeal.affordability.toUpperCase()}</DefaultText>
+            </S.Details>
+            <S.Title>List of Ingredients</S.Title>
+            {selectedMeal.ingredients.map((e, i) => {
+                return <ListItem key={i}>{e}</ListItem>;
+            })}
+            <S.Title>Steps</S.Title>
+            {selectedMeal.steps.map((e, i) => {
+                return <ListItem key={i}>{e}</ListItem>;
+            })}
+        </ScrollView>
     );
 };
 
@@ -38,6 +58,10 @@ MealDetail.propTypes = {
         popToTop: PropTypes.func.isRequired,
         getParam: PropTypes.func.isRequired,
     }),
+};
+
+ListItem.propTypes = {
+    children: PropTypes.string.isRequired,
 };
 
 export default MealDetail;
