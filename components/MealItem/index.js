@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { DefaultText } from '../DefaultText';
 import * as S from './styles';
 
 export const MealItem = ({
@@ -22,9 +23,9 @@ export const MealItem = ({
                     </S.MealBackgroundImg>
                 </S.MealHeader>
                 <S.MealDetail>
-                    <Text>{duration}</Text>
-                    <Text>{complexity.toUpperCase()}</Text>
-                    <Text>{affordability.toUpperCase()}</Text>
+                    <DefaultText>{duration}</DefaultText>
+                    <DefaultText>{complexity.toUpperCase()}</DefaultText>
+                    <DefaultText>{affordability.toUpperCase()}</DefaultText>
                 </S.MealDetail>
             </TouchableOpacity>
         </S.Container>
