@@ -1,13 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { MealsList } from '../../components';
 
-import { CATEGORIES, MEALS } from '../../data/dummy-data';
+import { CATEGORIES } from '../../data/dummy-data';
 
 const CategoryMeals = ({ navigation }) => {
     const catId = navigation.getParam('categoryId');
-    const categoryMeals = MEALS.filter(e => e.categoryIds.includes(catId));
+
+    const avaliableMeals = useSelector(state => state.meals.filteredMeals);
+
+    const categoryMeals = avaliableMeals.filter(e => e.categoryIds.includes(catId));
 
     return <MealsList mealData={categoryMeals} navigation={navigation} />;
 };
