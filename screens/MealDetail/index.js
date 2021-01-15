@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { toggleFavorite } from '../../store/actions/meals';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import PropTypes from 'prop-types';
 
@@ -16,6 +18,18 @@ const ListItem = ({ children }) => {
 
 const MealDetail = ({ navigation }) => {
     const selectedMeal = navigation.getParam('meal');
+
+    const dispatch = useDispatch();
+
+    const toggleFavoriteHandler = useCallback(() => {
+        dispatch(toggleFavorite(selectedMeal.id));
+    }, [dispatch, selectedMeal.id]);
+
+    useEffect(() => {
+        navigation.setParams({
+            toggleFav: toggleFavoriteHandler,
+        });
+    }, [toggleFavoriteHandler]);
 
     return (
         <ScrollView>
@@ -37,18 +51,19 @@ const MealDetail = ({ navigation }) => {
     );
 };
 
-const headerRightStarComponent = () => (
+const headerRightStarComponent = toggleFavHandler => (
     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item title="Favorite" iconName="ios-star" onPress={() => console.log('heyooo')} />
+        <Item title="Favorite" iconName="ios-star" onPress={toggleFavHandler} />
     </HeaderButtons>
 );
 
 MealDetail.navigationOptions = ({ navigation }) => {
     const meal = navigation.getParam('meal');
+    const toggleFavHandler = navigation.getParam('toggleFav');
 
     return {
         headerTitle: meal.title,
-        headerRight: headerRightStarComponent,
+        headerRight: () => headerRightStarComponent(toggleFavHandler),
     };
 };
 
@@ -56,6 +71,7 @@ MealDetail.propTypes = {
     navigation: PropTypes.shape({
         navigate: PropTypes.func.isRequired,
         popToTop: PropTypes.func.isRequired,
+        setParams: PropTypes.func.isRequired,
         getParam: PropTypes.func.isRequired,
     }),
 };
