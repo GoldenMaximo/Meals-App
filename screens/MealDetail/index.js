@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleFavorite } from '../../store/actions/meals';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import PropTypes from 'prop-types';
@@ -18,6 +18,9 @@ const ListItem = ({ children }) => {
 
 const MealDetail = ({ navigation }) => {
     const selectedMeal = navigation.getParam('meal');
+    const selectedMealIsFavorite = useSelector(state =>
+        state.meals.favoriteMeals.some(e => e.id === selectedMeal.id)
+    );
 
     const dispatch = useDispatch();
 
@@ -30,6 +33,12 @@ const MealDetail = ({ navigation }) => {
             toggleFav: toggleFavoriteHandler,
         });
     }, [toggleFavoriteHandler]);
+
+    useEffect(() => {
+        navigation.setParams({
+            isFavorite: selectedMealIsFavorite,
+        });
+    }, [selectedMealIsFavorite]);
 
     return (
         <ScrollView>
@@ -51,19 +60,24 @@ const MealDetail = ({ navigation }) => {
     );
 };
 
-const headerRightStarComponent = toggleFavHandler => (
+const headerRightStarComponent = (toggleFavHandler, isFavorite) => (
     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-        <Item title="Favorite" iconName="ios-star" onPress={toggleFavHandler} />
+        <Item
+            title="Favorite"
+            iconName={isFavorite ? 'ios-star' : 'ios-star-outline'}
+            onPress={toggleFavHandler}
+        />
     </HeaderButtons>
 );
 
 MealDetail.navigationOptions = ({ navigation }) => {
     const meal = navigation.getParam('meal');
     const toggleFavHandler = navigation.getParam('toggleFav');
+    const isFavorite = navigation.getParam('isFavorite');
 
     return {
         headerTitle: meal.title,
-        headerRight: () => headerRightStarComponent(toggleFavHandler),
+        headerRight: () => headerRightStarComponent(toggleFavHandler, isFavorite),
     };
 };
 
