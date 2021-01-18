@@ -11,7 +11,6 @@ export const MealsList = ({ navigation, mealData }) => {
 
     const renderMealItem = ({ item: meal }) => {
         const isFavorite = favoriteMeals.some(e => e.id === meal.id);
-        console.log('ayooo> , ', isFavorite);
         return (
             <MealItem
                 title={meal.title}
