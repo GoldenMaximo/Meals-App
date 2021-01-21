@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-import { MealsList } from '../../components';
+import { DefaultText, MealsList, Screen } from '../../components';
 
 import { CATEGORIES } from '../../data/dummy-data';
 
@@ -12,6 +12,14 @@ const CategoryMeals = ({ navigation }) => {
     const avaliableMeals = useSelector(state => state.meals.filteredMeals);
 
     const categoryMeals = avaliableMeals.filter(e => e.categoryIds.includes(catId));
+
+    if (!categoryMeals.length) {
+        return (
+            <Screen>
+                <DefaultText>No meals found, maybe check your filters?</DefaultText>
+            </Screen>
+        );
+    }
 
     return <MealsList mealData={categoryMeals} navigation={navigation} />;
 };
